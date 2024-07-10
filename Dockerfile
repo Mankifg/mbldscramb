@@ -5,4 +5,4 @@ RUN apt update && apt install -y git nodejs
 RUN pip install --upgrade pip 
 RUN pip install --upgrade -r requirements.txt
 EXPOSE 5000
-CMD python -u main.py
+CMD uvicorn main:app --port 5000
