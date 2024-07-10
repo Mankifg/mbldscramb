@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>mBld Scrambler</title>
+    <style>
+        table {
+            width: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid transparent !important;
+            padding: 1px;
+            text-align: left;
+        }
+        body {
+            font-family: monospace !important;
+            font-size: 20px;
+        }
+        
+        #num {
+            font-size: 40px;
+        }
+        #scrm {
+            font-size: 30px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>MultiBlind scrambler</h1>
+    
+    <a href="/scramble">
+        <button type="button" class="go" value="go" onclick="">Go to scrambles</button>
+    </a>
+ 
+    <br>
+
+    <form id="newScrambleForm">
+        <label for="cubes">Number of cubes:</label>
+        <input type="number" id="cubes" name="cubes" value="10" min="1">
+        <button type="submit">Save algs to cookie</button>
+    </form>
+
+    <footer><small>Made by <a href="https://github.com/mankifg/">Mankifg</a> with <a href="https://github.com/euphwes/pyTwistyScrambler">pyTwistyScrambler</a> and <a href="https://github.com/trincaog/magiccube">magiccube</a>.</small></footer>
+
+    <script>
+        document.getElementById('newScrambleForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const cubes = document.getElementById('cubes').value;
+            fetch(`/save_scr?cubes=${cubes}`, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Done")
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>

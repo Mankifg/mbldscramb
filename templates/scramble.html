@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>mBld Scrambler</title>
+    <style>
+        table {
+            width: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid transparent !important;
+            padding: 1px;
+            text-align: left;
+        }
+        body {
+            font-family:monospace !important;
+            font-size: 20px;
+        }
+        
+        #num{
+            font-size: 40px;
+        }
+        #scrm{
+            font-size: 30px
+        }
+    </style>
+</head>
+<body>
+    <h1>Scrambles (page {{ index +1}}):</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>N</th>
+                <th>Image</th>
+                <th>Scramble</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item, scr, num in comb %}
+                <tr>
+                    <td id="num">{{num}}</td>
+                    <td><img src="https://uface.vercel.app/image?uface={{ scr }}" height="50" width="50"></td>
+                    <td id="scrm">{{ item }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form method="post" action="/set_index/{{ index + 1 }}">
+        <button type="submit">Next</button>
+    </form>
+    <form method="post" action="/set_index/{{ index - 1 }}">
+        <button type="submit">Previous</button>
+    </form>
+</body>
+</html>
