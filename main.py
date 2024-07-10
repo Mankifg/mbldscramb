@@ -96,7 +96,7 @@ async def read_root(request: Request):
     return {"scr":scr}
 
 
-@app.post("/save_scr/")
+@app.post("/save_scr")
 async def save_scr(response: Response,cubes: int = 2):
     print(cubes)
     scrambles = []
