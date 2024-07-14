@@ -149,6 +149,11 @@ async def handle_form(response:Response,input_text: str = Form(...)):
     
     inp = input_text.split("\n")
     
+    pattern = r"^\d+[\.\)]\s*"
+
+    # Filter the scrambles
+    inp = [re.sub(pattern, "", scramble) for scramble in inp]
+    
     print(inp)
     
     
@@ -179,7 +184,7 @@ async def handle_form(response:Response,input_text: str = Form(...)):
     response.set_cookie(key="s", value=scrambles, httponly=True)
 
 
-    return {"output": "Finished"}
+    return {"output": "Saved"}
 
 @app.post("/save_scr")
 async def save_scr(response: Response,cubes: int = 2):
