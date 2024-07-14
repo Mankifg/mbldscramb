@@ -77,12 +77,6 @@ async def root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request,})
 
 def the_main(s,index):
-    a_el = 0
-    for a in s:
-        a_el = a_el + len(a)
-    print(a_el)
-    
-    
     if s:
         print(s)
         print(type(s))
@@ -91,6 +85,11 @@ def the_main(s,index):
         print(elements)
     else:
         return False,"First you nead to generate scrambles.",None
+
+    a_el = 0
+    for a in s:
+        a_el = a_el + len(a)
+    print(a_el)
 
     if index >= len(elements) or index < 0:
         index = 0  
@@ -103,7 +102,7 @@ def the_main(s,index):
         count = count + len(elements[i])
     print(count)
     
-    nums = list(range(count+1,100))
+    nums = list(range(count+1,201))
     comb = list(zip(el, scrms,nums))
     
     return True,comb,index
