@@ -3,7 +3,14 @@
 <head>
     <title>mBld Scrambler</title>
     <style>
+        body {
+            font-family: monospace !important;
+            font-size: 20px;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
         table {
+            margin: auto;
             width: auto;
             border-collapse: collapse;
         }
@@ -12,21 +19,57 @@
             padding: 1px;
             text-align: left;
         }
-        body {
-            font-family:monospace !important;
-            font-size: 20px;
+        #num {
+            font-size: 35px;
         }
-        
-        #num{
-            font-size: 40px;
+        #scrm {
+            font-size: 35px;
         }
-        #scrm{
-            font-size: 30px
+        .button {
+            font-size: 25px;
+            padding: 10px 20px;
+            margin: 10px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .button-next {
+            background-color: #4CAF50;
+        }
+        .button-next:hover {
+            background-color: #45a049;
+        }
+        .button-previous {
+            background-color: #008CBA;
+        }
+        .button-previous:hover {
+            background-color: #007bb5;
+        }
+        .button-home {
+            background-color: #f44336;
+        }
+        .button-home:hover {
+            background-color: #e53935;
+        }
+        .button-container {
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Scrambles (page {{ index +1}}):</h1>
+    <h1>Scrambles (page {{ index + 1 }}):</h1>
+    <div class="button-container">
+        <form method="post" action="/set_index/{{ index + 1 }}" style="display: inline;">
+            <button type="submit" class="button button-next">Next</button>
+        </form>
+        <form method="post" action="/set_index/{{ index - 1 }}" style="display: inline;">
+            <button type="submit" class="button button-previous">Previous</button>
+        </form>
+        <a href="/">
+            <button type="submit" class="button button-home">Home</button>
+        </a>
+    </div>
     <table>
         <thead>
             <tr>
@@ -38,18 +81,12 @@
         <tbody>
             {% for item, scr, num in comb %}
                 <tr>
-                    <td id="num">{{num}}</td>
+                    <td id="num">{{ num }}</td>
                     <td><img src="https://uface.vercel.app/image?uface={{ scr }}" height="50" width="50"></td>
                     <td id="scrm">{{ item }}</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-    <form method="post" action="/set_index/{{ index + 1 }}">
-        <button type="submit">Next</button>
-    </form>
-    <form method="post" action="/set_index/{{ index - 1 }}">
-        <button type="submit">Previous</button>
-    </form>
 </body>
 </html>

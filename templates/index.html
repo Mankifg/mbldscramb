@@ -3,7 +3,18 @@
 <head>
     <title>mBld Scrambler</title>
     <style>
+        body {
+            font-family: monospace !important;
+            font-size: 20px;
+            text-align: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
         table {
+            margin: auto;
             width: auto;
             border-collapse: collapse;
         }
@@ -12,36 +23,88 @@
             padding: 1px;
             text-align: left;
         }
-        body {
-            font-family: monospace !important;
-            font-size: 20px;
-        }
-        
         #num {
             font-size: 40px;
         }
         #scrm {
             font-size: 30px;
         }
-
+        #custom {
+            font-size: 30px;
+        }
+        #error {
+            font-size: 25px;
+            color: red;
+            text-align: center;
+        }
+        #newScrambleForm * {
+            display: inline-block;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        #newScrambleForm p {
+            margin: 0;
+        }
+        .button {
+            font-size: 25px;
+            padding: 10px 20px;
+            margin: 10px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .button-go {
+            background-color: #4CAF50;
+        }
+        .button-go:hover {
+            background-color: #45a049;
+        }
+        .button-save {
+            background-color: #008CBA;
+        }
+        .button-save:hover {
+            background-color: #007bb5;
+        }
+        .button-custom {
+            background-color: #f44336;
+        }
+        .button-custom:hover {
+            background-color: #e53935;
+        }
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 10px;
+            font-size: medium;
+            background-color: #f1f1f1; /* Optional: Adds a light grey background to the footer */
+        }
     </style>
 </head>
 <body>
     <h1>MultiBlind scrambler</h1>
-    
     <a href="/scramble">
-        <button type="button" class="go" value="go" onclick="">Go to scrambles</button>
+        <button type="button" class="button button-go">Go to scrambles</button>
     </a>
  
     <br>
 
     <form id="newScrambleForm">
         <label for="cubes">Number of cubes:</label>
-        <input type="number" id="cubes" name="cubes" value="10" min="1">
-        <button type="submit">Save algs to cookie</button>
+        <input type="number" id="cubes" name="cubes" value="10" min="2" max="201">
+        <button type="submit" class="button button-save">Save algs to cookie</button>
+        <label for="cubes">Please wait for scrambles to generate (rate: 200/min)</label>
     </form>
 
-    <footer><small>Made by <a href="https://github.com/mankifg/">Mankifg</a> with <a href="https://github.com/euphwes/pyTwistyScrambler">pyTwistyScrambler</a> and <a href="https://github.com/trincaog/magiccube">magiccube</a>.</small></footer>
+    <br>
+    Or instead use custom scramble 
+    <a href="/userscrambles">
+        <button type="button" class="button button-custom">Custom Scrambles</button>
+    </a>
+    <br>
+
+    <p id="error">{{error}}</p> 
+    <footer>Made by <a href="https://github.com/mankifg/">Mankifg</a> with <a href="https://github.com/euphwes/pyTwistyScrambler">pyTwistyScrambler</a> and <a href="https://github.com/trincaog/magiccube">magiccube</a>.</footer>
 
     <script>
         document.getElementById('newScrambleForm').addEventListener('submit', function(event) {
@@ -52,7 +115,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                alert("Done")
+                alert("Done");
             })
             .catch(error => {
                 console.error('Error:', error);
