@@ -61,10 +61,10 @@
     <h1>Scrambles (page {{ index + 1 }}):</h1>
     <div class="button-container">
         <form method="post" action="/set_index/{{ index + 1 }}" style="display: inline;">
-            <button type="submit" class="button button-next">Next</button>
+            <button type="submit" id="next" class="button button-next">Next</button>
         </form>
         <form method="post" action="/set_index/{{ index - 1 }}" style="display: inline;">
-            <button type="submit" class="button button-previous">Previous</button>
+            <button type="submit" id="back" class="button button-previous">Previous</button>
         </form>
         <a href="/">
             <button type="submit" class="button button-home">Home</button>
@@ -88,5 +88,15 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <script>
+        document.addEventListener('keydown', function(event) {
+            // Check if the pressed key is the spacebar
+            if (event.code === 'Space') {
+                event.preventDefault(); // Prevent the default spacebar action (scrolling the page down)
+                document.getElementById('next').click(); // Simulate button click
+            }
+        }); 
+    </script>
 </body>
 </html>

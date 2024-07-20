@@ -135,9 +135,25 @@ async def set_index(request: Request, new_index: int, s: Optional[str] = Cookie(
     return templates.TemplateResponse("scramble.html", {"request": request, "comb": data, "index": index})
 
 
-@app.get("/userscrambles")
-async def read_root(request: Request):
-    response = templates.TemplateResponse("userScrambles.html", {"request": request})
+@app.get("/importexport")
+async def read_root(request: Request,s: Optional[str] = Cookie(None)):
+    
+    if s is None:
+        field_text = ""
+    else:
+        s = ast.literal_eval(s)
+        field_text = ""
+        indx = 1
+        for row in s:
+            for scramble in row:
+                field_text = field_text + f"{indx}. {scramble}\n"
+                indx +=1
+                
+        
+        
+    
+    
+    response = templates.TemplateResponse("importexport.html", {"request": request,"field_text": field_text})
     return response
 
 
