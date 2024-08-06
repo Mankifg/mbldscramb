@@ -1,0 +1,52 @@
+body {
+    font-family: monospace !important;
+    font-size: 20px;
+    text-align: center;
+    background-color: #f0f0f0;
+}
+table {
+    margin: auto;
+    width: auto;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid transparent !important;
+    padding: 1px;
+    text-align: left;
+}
+#num {
+    font-size: 35px;
+}
+#scrm {
+    font-size: 35px;
+}
+.button {
+    font-size: 25px;
+    padding: 10px 20px;
+    margin: 10px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.button-next {
+    background-color: #4CAF50;
+}
+.button-next:hover {
+    background-color: #45a049;
+}
+.button-previous {
+    background-color: #008CBA;
+}
+.button-previous:hover {
+    background-color: #007bb5;
+}
+.button-home {
+    background-color: #f44336;
+}
+.button-home:hover {
+    background-color: #e53935;
+}
+.button-container {
+    margin-bottom: 20px;
+}

@@ -2,84 +2,9 @@
 <html>
 <head>
     <title>mBld Scrambler</title>
-    <style>
-        body {
-            font-family: monospace !important;
-            font-size: 20px;
-            text-align: center;
-            background-color: #f0f0f0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        table {
-            margin: auto;
-            width: auto;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid transparent !important;
-            padding: 1px;
-            text-align: left;
-        }
-        #num {
-            font-size: 40px;
-        }
-        #scrm {
-            font-size: 30px;
-        }
-        #custom {
-            font-size: 30px;
-        }
-        #error {
-            font-size: 25px;
-            color: red;
-            text-align: center;
-        }
-        #newScrambleForm * {
-            display: inline-block;
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-        #newScrambleForm p {
-            margin: 0;
-        }
-        .button {
-            font-size: 25px;
-            padding: 10px 20px;
-            margin: 10px;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .button-go {
-            background-color: #4CAF50;
-        }
-        .button-go:hover {
-            background-color: #45a049;
-        }
-        .button-save {
-            background-color: #008CBA;
-        }
-        .button-save:hover {
-            background-color: #007bb5;
-        }
-        .button-custom {
-            background-color: #f44336;
-        }
-        .button-custom:hover {
-            background-color: #e53935;
-        }
-        footer {
-            margin-top: auto;
-            text-align: center;
-            padding: 10px;
-            font-size: medium;
-            background-color: #f1f1f1; /* Optional: Adds a light grey background to the footer */
-        }
-    </style>
+    <link rel="stylesheet" href="/static/styles.css">
+
+   
 </head>
 <body>
     <h1>MultiBlind scrambler</h1>
@@ -88,14 +13,34 @@
     </a>
  
     <br>
-
+    <div class="container">
+        <p id="finish"></p>
+    <div class="loader">
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+        <div class="loader-square"></div>
+    </div>
+    </div>
     <form id="newScrambleForm">
         <label for="cubes">Number of cubes:</label>
-        <input type="number" id="cubes" name="cubes" value="10" min="2" max="201">
-        <button type="submit" class="button button-save">Save algs to cookie</button>
+        <input type="number" id="cubes" name="cubes" value="10" min="2" max="201" oninput="updt()">
+        <label for="cubeperpage">Cubes per page: </label>
+        <input type="number" id="cubeperpage" name="cubeperpage" min="1">
+        <label for="cubeperpage">Pages: </label>
+        <input type="number" id="pages" name="pages"  min="1">
+        <label for="cubeperpage">Add: </label>
+        <input type="number" id="add" name="add" value="1" min="0">
+        <br>
         <label for="cubes">Please wait for scrambles to generate (rate: 200/min)</label>
+        <br>
+        <button type="submit" class="button button-save">Save algs to cookie</button>
     </form>
 
+    
     <br>
     Or instead use custom scramble 
     <a href="/importexport">
@@ -107,18 +52,63 @@
     <footer>Made by <a href="https://github.com/mankifg/">Mankifg</a> with <a href="https://github.com/euphwes/pyTwistyScrambler">pyTwistyScrambler</a> and <a href="https://github.com/trincaog/magiccube">magiccube</a>.</footer>
 
     <script>
+        function updt() {
+            n = document.getElementById("cubes").value;
+                
+            const sq = Math.floor(Math.sqrt(n));
+            const sec = Math.floor(n / sq);
+            let rem = n - sq * sec;
+        
+            const sq1 = sq + 1;
+            const sec2 = Math.floor(n / sq1);
+            const rem2 = n - sq1 * sec2;
+        
+            let width, height;
+            if (rem < rem2) {
+                width = sq;
+                height = sec;
+            } else {
+                width = sq1;
+                height = sec2;
+                rem = rem2;
+            }
+        
+            console.log(`${n}=${width}x${height}+${rem}`);
+            
+            document.getElementById("cubeperpage").value = width;
+            document.getElementById("pages").value = height;
+            document.getElementById("add").value = rem;
+        }
+
+        updt()
+        document.querySelector('.loader').style.display = 'none';
+        document.getElementById("finish").innerHTML = '';
+
         document.getElementById('newScrambleForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            const cubes = document.getElementById('cubes').value;
-            fetch(`/save_scr?cubes=${cubes}`, {
+
+            // Show the loader / hide the "Done"
+            document.getElementById("finish").innerHTML = '';
+            document.querySelector('.loader').style.display = 'block';
+
+            const cubesperpage = document.getElementById('cubeperpage').value;
+            const pages = document.getElementById('pages').value;
+            const add = document.getElementById('add').value;
+
+            fetch(`/save_scr?cpp=${cubesperpage}&pages=${pages}&add=${add}`, {
                 method: 'POST',
             })
             .then(response => response.json())
             .then(data => {
-                alert("Done");
+                document.querySelector('.loader').style.display = 'none';
+                document.getElementById("finish").innerHTML = 'Done';
             })
             .catch(error => {
                 console.error('Error:', error);
+            })
+            .finally(() => {
+                // Hide the loader
+                
             });
         });
     </script>

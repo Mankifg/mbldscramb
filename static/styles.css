@@ -1,0 +1,240 @@
+
+body {
+    font-family: monospace !important;
+    font-size: 20px;
+    text-align: center;
+    background-color: #f0f0f0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+table {
+    margin: auto;
+    width: auto;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid transparent !important;
+    padding: 1px;
+    text-align: left;
+}
+#num {
+    font-size: 40px;
+}
+#scrm {
+    font-size: 30px;
+}
+#custom {
+    font-size: 30px;
+}
+#error {
+    font-size: 25px;
+    color: red;
+    text-align: center;
+}
+#newScrambleForm * {
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+#newScrambleForm p {
+    margin: 0;
+}
+.button {
+    font-size: 25px;
+    padding: 10px 20px;
+    margin: 10px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.button-go {
+    background-color: #4CAF50;
+}
+.button-go:hover {
+    background-color: #45a049;
+}
+.button-save {
+    background-color: #008CBA;
+}
+.button-save:hover {
+    background-color: #007bb5;
+}
+.button-custom {
+    background-color: #f44336;
+}
+.button-custom:hover {
+    background-color: #e53935;
+}
+footer {
+    margin-top: auto;
+    text-align: center;
+    padding: 10px;
+    font-size: medium;
+    background-color: #f1f1f1; /* Optional: Adds a light grey background to the footer */
+}
+
+.container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+  }
+.center-div {
+    background-color: lightblue;
+    padding: 20px;
+  }
+
+  input[type="number"] {
+    width: 100px; /* Adjust the width as needed */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: #333; /* Dark background */
+    color: #fff; /* White text */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* From Uiverse.io by ZacharyCrespin */ 
+@keyframes square-animation {
+    0% {
+     left: 0;
+     top: 0;
+    }
+   
+    10.5% {
+     left: 0;
+     top: 0;
+    }
+   
+    12.5% {
+     left: 32px;
+     top: 0;
+    }
+   
+    23% {
+     left: 32px;
+     top: 0;
+    }
+   
+    25% {
+     left: 64px;
+     top: 0;
+    }
+   
+    35.5% {
+     left: 64px;
+     top: 0;
+    }
+   
+    37.5% {
+     left: 64px;
+     top: 32px;
+    }
+   
+    48% {
+     left: 64px;
+     top: 32px;
+    }
+   
+    50% {
+     left: 32px;
+     top: 32px;
+    }
+   
+    60.5% {
+     left: 32px;
+     top: 32px;
+    }
+   
+    62.5% {
+     left: 32px;
+     top: 64px;
+    }
+   
+    73% {
+     left: 32px;
+     top: 64px;
+    }
+   
+    75% {
+     left: 0;
+     top: 64px;
+    }
+   
+    85.5% {
+     left: 0;
+     top: 64px;
+    }
+   
+    87.5% {
+     left: 0;
+     top: 32px;
+    }
+   
+    98% {
+     left: 0;
+     top: 32px;
+    }
+   
+    100% {
+     left: 0;
+     top: 0;
+    }
+   }
+   
+   .loader {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    transform: rotate(45deg);
+   }
+   
+   .loader-square {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 28px;
+    height: 28px;
+    margin: 2px;
+    border-radius: 0px;
+    background: black;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    animation: square-animation 10s ease-in-out infinite both;
+   }
+   
+   .loader-square:nth-of-type(0) {
+    animation-delay: 0s;
+   }
+   
+   .loader-square:nth-of-type(1) {
+    animation-delay: -1.4285714286s;
+   }
+   
+   .loader-square:nth-of-type(2) {
+    animation-delay: -2.8571428571s;
+   }
+   
+   .loader-square:nth-of-type(3) {
+    animation-delay: -4.2857142857s;
+   }
+   
+   .loader-square:nth-of-type(4) {
+    animation-delay: -5.7142857143s;
+   }
+   
+   .loader-square:nth-of-type(5) {
+    animation-delay: -7.1428571429s;
+   }
+   
+   .loader-square:nth-of-type(6) {
+    animation-delay: -8.5714285714s;
+   }
+   
+   .loader-square:nth-of-type(7) {
+    animation-delay: -10s;
+   }

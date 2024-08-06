@@ -27,6 +27,7 @@ pattern = "(([UuDdLlRrFfBbMESxyz]|[UDLRFB]w)[2']?)+"
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 def up_face(alg):
     
@@ -203,17 +204,18 @@ async def handle_form(response:Response,input_text: str = Form(...)):
     return {"output": "Saved"}
 
 @app.post("/save_scr")
-async def save_scr(response: Response,cubes: int = 2):
-    print(cubes)
-    scrambles = []
+async def save_scr(response: Response,cpp:int,pages:int,add:int):
+    print(cpp,pages,add)
     
-    width, height, reaminder = scale(cubes)
+    scrambles = []
+    width, height, reaminder = pages,cpp,add
     
     for _ in range(width):
         n = []
         for _ in range(height):
             n.append(scrambler333.get_3BLD_scramble())
         scrambles.append(n)
+        print("+")
         
     extra = []
     for _ in range(reaminder):
@@ -221,7 +223,7 @@ async def save_scr(response: Response,cubes: int = 2):
     scrambles.append(extra)
     
     response.set_cookie(key="s", value=scrambles, httponly=True)
-    
+    print("DONE ",cpp,pages,add)
 
 
 
