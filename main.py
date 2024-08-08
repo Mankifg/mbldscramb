@@ -150,13 +150,10 @@ async def set_index(request: Request, new_index: int, s: Optional[str] = Cookie(
 
 @app.get("/importexport")
 async def read_root(request: Request,s: Optional[str] = Cookie(None)):
-    if s:
-        print(s)
-    else:
-        return False,"First you nead to generate scrambles.",None
     
     if s is None:
         field_text = ""
+        s = "/"
     else:
         field_text = ""
         scrambles = fireb.read(s)
