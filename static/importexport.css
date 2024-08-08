@@ -70,3 +70,10 @@ footer {
     padding: 10px;
     box-sizing: border-box;
 }
+
+.button-save {
+    background-color: #ff9800;
+}
+.button-save:hover {
+    background-color: #e68900;
+}

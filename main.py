@@ -23,6 +23,8 @@ import re
 
 import ast
 
+import fireb
+
 pattern = "(([UuDdLlRrFfBbMESxyz]|[UDLRFB]w)[2']?)+"
 
 app = FastAPI()
@@ -80,21 +82,31 @@ async def root(request: Request):
 def the_main(s,index):
     if s:
         print(s)
-        print(type(s))
-        elements = ast.literal_eval(s)
-        #elements = json.loads(s)
-        print(elements)
     else:
         return False,"First you nead to generate scrambles.",None
 
+    print(fireb.read(s))
+
+    elements = fireb.read(s)
+    if elements is None:
+        return False,"Id not found",None
+        
+    
+    if [] in elements:
+        elements.remove([])
+    
     a_el = 0
     for a in s:
         a_el = a_el + len(a)
     print(a_el)
 
-    if index >= len(elements) or index < 0:
-        index = 0  
-    el = elements[index]
+    if index > len(elements) or index < 0:
+        index = 0
+    try:  
+        el = elements[index]
+    except IndexError:
+        el = elements[0]
+        index = 0
     
     scrms = list_of_scrambles_to_uface(el)
     
@@ -138,23 +150,32 @@ async def set_index(request: Request, new_index: int, s: Optional[str] = Cookie(
 
 @app.get("/importexport")
 async def read_root(request: Request,s: Optional[str] = Cookie(None)):
+    if s:
+        print(s)
+    else:
+        return False,"First you nead to generate scrambles.",None
     
     if s is None:
         field_text = ""
     else:
-        s = ast.literal_eval(s)
         field_text = ""
-        indx = 1
-        for row in s:
-            for scramble in row:
-                field_text = field_text + f"{indx}. {scramble}\n"
-                indx +=1
+        scrambles = fireb.read(s)
+        if scrambles is None:
+            field_text = "Id not found"
+            scrambles = []
+        else:
+            if [] in scrambles:
+                scrambles.remove([])
                 
-        
-        
+                
+            indx = 1
+            for row in scrambles:
+                for scramble in row:
+                    field_text = field_text + f"{indx}. {scramble}\n"
+                    indx +=1
+          
     
-    
-    response = templates.TemplateResponse("importexport.html", {"request": request,"field_text": field_text})
+    response = templates.TemplateResponse("importexport.html", {"request": request,"field_text": field_text,"id":s})
     return response
 
 
@@ -196,12 +217,15 @@ async def handle_form(response:Response,input_text: str = Form(...)):
     
     if len(extra) != 0:
         scrambles.append(extra)
-    
-    print(scrambles)
-    response.set_cookie(key="s", value=scrambles, httponly=True)
 
+    id = fireb.id()
+    fireb.save(id,scrambles)
+    
+    response.set_cookie(key="s", value=id, httponly=True)
 
     return {"output": "Saved"}
+
+
 
 @app.post("/save_scr")
 async def save_scr(response: Response,cpp:int,pages:int,add:int):
@@ -222,8 +246,18 @@ async def save_scr(response: Response,cpp:int,pages:int,add:int):
         extra.append(scrambler333.get_3BLD_scramble())
     scrambles.append(extra)
     
-    response.set_cookie(key="s", value=scrambles, httponly=True)
+    id = fireb.id()
+    fireb.save(id,scrambles)
+    
+    
+    response.set_cookie(key="s", value=id, httponly=True)
     print("DONE ",cpp,pages,add)
 
+    return {"done":True}
 
+@app.post("/save_cook")
+async def save_scr(response: Response,v):
+    
+    response.set_cookie(key="s", value=v, httponly=True)
+    return f"Done, set id to {v}"
 
