@@ -49,6 +49,8 @@
                 });
                 const result = await response.text();
                 alert(`Response: ${result}`);
+                window.location.reload();
+
             } else {
                 alert('Please enter an ID.');
             }
