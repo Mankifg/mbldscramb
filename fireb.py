@@ -29,25 +29,26 @@ def json_to_array(json_string):
     array = [json_obj[str(i)] for i in range(len(json_obj))]
     return array
 
-def save(id,data):
+def save(id,user_data):
     
-    print(id,data)
+    print(id,user_data)
     
-    d2 = array_to_json(data)
+    d2 = array_to_json(user_data)
     
     print(d2)
     
     # [START firestore_data_set_from_map]
     # Add a new doc in collection 'cities' with ID 'LA'
-    db.collection("scrambles").document(id).set({"scr":d2})
+    data.document(id).set({"scr":d2})
+
 
 
 def read(id):
-    data = db.collection('scrambles').document(id).get().to_dict()
-    print(data)
-    if data is None:
+    dit = data.document(id).get().to_dict()
+    print(dit)
+    if dit is None:
         return None
-    return json_to_array(data.get("scr",None))
+    return json_to_array(dit.get("scr",None))
 
 from datetime import datetime as dt
 
