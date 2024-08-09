@@ -37,7 +37,6 @@ def save(id,data):
     
     print(d2)
     
-    db = firestore.Client()
     # [START firestore_data_set_from_map]
     # Add a new doc in collection 'cities' with ID 'LA'
     db.collection("scrambles").document(id).set({"scr":d2})
