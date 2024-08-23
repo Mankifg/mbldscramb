@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>mBld Scrambler</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/index.css">
 
    
 </head>
@@ -27,13 +27,14 @@
     </div>
     <form id="newScrambleForm">
         <label for="cubes">Number of cubes:</label>
-        <input type="number" id="cubes" name="cubes" value="10" min="2" max="201" oninput="updt()">
-        <label for="cubeperpage">Cubes per page: </label>
-        <input type="number" id="cubeperpage" name="cubeperpage" min="1">
-        <label for="cubeperpage">Pages: </label>
-        <input type="number" id="pages" name="pages"  min="1">
-        <label for="cubeperpage">Add: </label>
-        <input type="number" id="add" name="add" value="1" min="0">
+        <input type="number" id="cubes" name="cubes" value="10" min="2" max="201">
+
+        <input type="checkbox" id="square" name="square" value="uf">
+        <label for="square">Square shape</label>
+
+        <input type="number" id="cubesperpage" value="3" min="2" max="30">
+
+
         <br>
         <label for="cubes">Please wait for scrambles to generate (rate: 200/min)</label>
         <br>
@@ -52,9 +53,7 @@
     <footer>Made by <a href="https://github.com/mankifg/">Mankifg</a> with <a href="https://github.com/euphwes/pyTwistyScrambler">pyTwistyScrambler</a> and <a href="https://github.com/trincaog/magiccube">magiccube</a>.</footer>
 
     <script>
-        function updt() {
-            n = document.getElementById("cubes").value;
-                
+        function sq(n) {
             const sq = Math.floor(Math.sqrt(n));
             const sec = Math.floor(n / sq);
             let rem = n - sq * sec;
@@ -73,29 +72,37 @@
                 rem = rem2;
             }
         
-            console.log(`${n}=${width}x${height}+${rem}`);
-            
-            document.getElementById("cubeperpage").value = width;
-            document.getElementById("pages").value = height;
-            document.getElementById("add").value = rem;
+            // Return as an array or an object
+            return [width, height, rem]; // or { width, height, rem }
         }
-
-        updt()
+        
         document.querySelector('.loader').style.display = 'none';
         document.getElementById("finish").innerHTML = '';
-
+        
         document.getElementById('newScrambleForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // Show the loader / hide the "Done"
             document.getElementById("finish").innerHTML = '';
             document.querySelector('.loader').style.display = 'block';
 
-            const cubesperpage = document.getElementById('cubeperpage').value;
-            const pages = document.getElementById('pages').value;
-            const add = document.getElementById('add').value;
+            let cubes = document.getElementById("cubes").value;
+            let cubesperpage, pages, rem;
 
-            fetch(`/save_scr?cpp=${cubesperpage}&pages=${pages}&add=${add}`, {
+            if (document.getElementById("square").checked) {
+
+                [cubesperpage, pages, rem] = sq(cubes);
+                console.log(cubesperpage, pages, rem);
+        
+            } else {
+                cubesperpage = document.getElementById("cubesperpage").value;
+                pages = Math.floor(cubes / cubesperpage);
+                rem = cubes % cubesperpage;
+            }
+        
+
+            
+            
+            fetch(`/save_scr?cpp=${cubesperpage}&pages=${pages}&add=${rem}`, {
                 method: 'POST',
             })
             .then(response => response.json())
