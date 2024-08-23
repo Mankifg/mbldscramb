@@ -30,9 +30,11 @@
         <input type="number" id="cubes" name="cubes" value="10" min="2" max="201">
 
         <input type="checkbox" id="square" name="square" value="uf">
-        <label for="square">Square shape</label>
+        <label for="sqaure">Square shape</label>
 
+        <br>
         <input type="number" id="cubesperpage" value="3" min="2" max="30">
+        <label for="cubesperpage" id="h2">Cubes per page</label>
 
 
         <br>
@@ -53,6 +55,29 @@
     <footer>Made by <a href="https://github.com/mankifg/">Mankifg</a> with <a href="https://github.com/euphwes/pyTwistyScrambler">pyTwistyScrambler</a> and <a href="https://github.com/trincaog/magiccube">magiccube</a>.</footer>
 
     <script>
+
+
+        const checkbox = document.getElementById('square');
+        const elementToHide = document.getElementById('cubesperpage');
+        const e2 = document.getElementById('h2');
+
+        checkbox.checked = true
+        elementToHide.style.display = 'none';
+        e2.style.display = 'none';
+
+
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                elementToHide.style.display = 'none';
+                e2.style.display = 'none';
+            } else {
+                elementToHide.style.display = 'initial';
+                e2.style.display = 'initial';
+            }
+
+        })
+
+
         function sq(n) {
             const sq = Math.floor(Math.sqrt(n));
             const sec = Math.floor(n / sq);
@@ -94,14 +119,18 @@
                 console.log(cubesperpage, pages, rem);
         
             } else {
+                console.log(document.getElementById("cubesperpage").value,cubes);
+                if (parseInt(document.getElementById("cubesperpage").value) > parseInt(cubes)) {
+                    document.getElementById("cubesperpage").value = cubes
+                }
+
                 cubesperpage = document.getElementById("cubesperpage").value;
+
                 pages = Math.floor(cubes / cubesperpage);
                 rem = cubes % cubesperpage;
             }
         
 
-            
-            
             fetch(`/save_scr?cpp=${cubesperpage}&pages=${pages}&add=${rem}`, {
                 method: 'POST',
             })

@@ -189,7 +189,7 @@ async def handle_form(response:Response,input_text: str = Form(...)):
     # Filter the scrambles
     inp = [re.sub(pattern, "", scramble) for scramble in inp]
     
-    print(inp)
+    #print(inp)
     
     
     cubes = len(inp)
