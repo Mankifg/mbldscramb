@@ -13,7 +13,8 @@ Tool to display and generate scrambles for MBLD in usefull format
 * Shows the top (U) face of cubes
 * Supoort import export scrambles via IMPORT/EXPORT button
 * Share scrambles with generated id found in IMPORT/EXPORT menu
-* NOTE: Scramble generator is a bit slow
+> [!NOTE]  
+> Scramble generator is a bit slow
 
 # Other 
 For questions, feature reqests and bugs ~~(features)~~ submit issue. 
