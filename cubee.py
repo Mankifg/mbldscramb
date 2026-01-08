@@ -5,7 +5,7 @@ def up_face(alg):
         3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
     
     cube.reset()
-    cube.rotate("Z Z")
+    #cube.rotate("Z Z")
     cube.rotate(alg)
 
     print(cube)
